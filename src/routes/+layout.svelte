@@ -115,9 +115,10 @@
 	const setupSocket = async (enableWebsocket) => {
 		const _socket = io(`${WEBUI_BASE_URL}` || undefined, {
 			reconnection: true,
-			reconnectionDelay: 1000,
-			reconnectionDelayMax: 5000,
-			randomizationFactor: 0.5,
+			reconnectionDelay: 500,
+			reconnectionDelayMax: 3000,
+			randomizationFactor: 0.3,
+			reconnectionAttempts: Infinity,
 			path: '/ws/socket.io',
 			transports: enableWebsocket ? ['websocket'] : ['polling', 'websocket'],
 			auth: { token: localStorage.token }
@@ -193,7 +194,12 @@
 		_socket.on('disconnect', (reason, details) => {
 			console.log(`Socket ${_socket.id} disconnected due to ${reason}`);
 			socketConnected.set(false);
-			toast.warning($i18n.t('Connection lost. Reconnecting...'));
+
+			// Only show toast for server-initiated or unexpected disconnects,
+			// not for transient ones caused by tab switching / page navigation.
+			if (reason !== 'transport close' && reason !== 'ping timeout') {
+				toast.warning($i18n.t('Connection lost. Reconnecting...'));
+			}
 
 			if (heartbeatInterval) {
 				clearInterval(heartbeatInterval);
@@ -202,6 +208,11 @@
 
 			if (details) {
 				console.log('Additional details:', details);
+			}
+
+			// Force reconnect immediately if disconnected
+			if (!_socket.connected) {
+				_socket.connect();
 			}
 		});
 	};
@@ -474,7 +485,7 @@
 
 			if ($isLastActiveTab) {
 				if ($settings?.notificationEnabled ?? false) {
-					new Notification(`${data.title} • Open WebUI`, {
+					new Notification(`${data.title} • HelixAI`, {
 						body: timeStr,
 						icon: `${WEBUI_BASE_URL}/static/favicon.png`
 					});
@@ -504,7 +515,7 @@
 
 					if ($isLastActiveTab) {
 						if ($settings?.notificationEnabled ?? false) {
-							new Notification(`${displayTitle} • Open WebUI`, {
+							new Notification(`${displayTitle} • HelixAI`, {
 								body: content,
 								icon: `${WEBUI_BASE_URL}/static/favicon.png`
 							});
@@ -707,7 +718,7 @@
 
 				if ($isLastActiveTab) {
 					if ($settings?.notificationEnabled ?? false) {
-						new Notification(`${title} • Open WebUI`, {
+						new Notification(`${title} • HelixAI`, {
 							body: data?.content,
 							icon: `${WEBUI_API_BASE_URL}/users/${data?.user?.id}/profile/image`
 						});
@@ -837,7 +848,7 @@
 
 	const windowMessageEventHandler = async (event) => {
 		if (
-			!['https://openwebui.com', 'https://www.openwebui.com', 'http://localhost:9999'].includes(
+			!['https://nexusai.local', 'https://www.nexusai.local', 'http://localhost:9999'].includes(
 				event.origin
 			)
 		) {
@@ -932,6 +943,12 @@
 
 				// Check token expiry when the tab becomes active
 				checkTokenExpiry();
+
+				// Reconnect socket if it was disconnected while tab was hidden
+				if ($socket && !$socket.connected) {
+					console.log('Tab visible again, reconnecting socket...');
+					$socket.connect();
+				}
 			}
 		};
 

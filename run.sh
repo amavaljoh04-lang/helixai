@@ -1,9 +1,15 @@
 #!/bin/bash
 
-image_name="open-webui"
-container_name="open-webui"
+image_name="helixai"
+container_name="helixai"
 host_port=3000
 container_port=8080
+
+# Auto-install Ollama on the host if not present
+if ! command -v ollama &>/dev/null; then
+    echo "[HelixAI] Ollama not found on host. Installing..."
+    bash scripts/install-ollama.sh
+fi
 
 docker build -t "$image_name" .
 docker stop "$container_name" &>/dev/null || true
