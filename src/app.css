@@ -839,3 +839,74 @@ body {
 #note-content-container .ProseMirror {
 	padding-bottom: 2rem; /* space for the bottom toolbar */
 }
+
+/* ============================================
+   HelixAI Custom Theme
+   ============================================ */
+
+/* Brand accent: send button, active states, links */
+.dark .bg-black.text-white {
+	background: linear-gradient(135deg, #00d4ff, #7b2ff7) !important;
+	color: #fff !important;
+}
+
+.dark .bg-black.text-white:hover {
+	background: linear-gradient(135deg, #00bfe6, #6a1fe6) !important;
+}
+
+/* Scrollbar brand color */
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #00d4ff40, #7b2ff740) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, #00d4ff80, #7b2ff780) !important;
+}
+
+/* Sidebar active item highlight */
+.dark #sidebar-chat-item.bg-gray-850,
+.dark #sidebar-chat-item:hover {
+	border-left: 2px solid #00d4ff;
+}
+
+/* Chat input focus glow */
+.dark #chat-input:focus-within {
+	box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.3), 0 0 20px rgba(123, 47, 247, 0.1);
+}
+
+/* Loading shimmer with brand colors */
+.dark .shimmer {
+	background: linear-gradient(
+		110deg,
+		#1a1a2e 0%,
+		#1a1a2e 43%,
+		#00d4ff30 50%,
+		#1a1a2e 57%,
+		#1a1a2e 100%
+	) !important;
+	background-size: 200% 100% !important;
+}
+
+/* Links in dark mode with brand color */
+.dark .marked a {
+	color: #00d4ff !important;
+}
+
+.dark .marked a:hover {
+	color: #7b2ff7 !important;
+}
+
+/* Toast notifications with brand accent */
+.dark [data-sonner-toast] {
+	border-left: 3px solid #00d4ff !important;
+}
+
+/* Model selector pills */
+.dark .bg-gray-100.dark\:bg-gray-700 {
+	border: 1px solid rgba(0, 212, 255, 0.15);
+}
+
+/* Subtle gradient on main background for depth */
+.dark .app {
+	background: linear-gradient(180deg, #0d0d0d 0%, #0a0a14 100%) !important;
+}

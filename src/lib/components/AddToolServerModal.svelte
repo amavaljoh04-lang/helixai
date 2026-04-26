@@ -916,7 +916,7 @@
 								'MCP support is experimental and its specification changes often, which can lead to incompatibilities. OpenAPI specification support is directly maintained by the HelixAI team, making it the more reliable option for compatibility.'
 							)}
 
-							<a class="font-medium underline" href="https://docs.openwebui.com/" target="_blank"
+							<a class="font-medium underline" href="https://github.com/amavaljoh04-lang/helixai/" target="_blank"
 								>{$i18n.t('Read more →')}</a
 							>
 						</div>

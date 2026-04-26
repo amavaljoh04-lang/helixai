@@ -155,7 +155,7 @@
 						e.preventDefault();
 
 						window.open(
-							`https://openwebui.com/models?q=${encodeURIComponent(model?.id ?? '')}`,
+							`https://github.com/amavaljoh04-lang/helixai/models?q=${encodeURIComponent(model?.id ?? '')}`,
 							'_blank'
 						);
 						show = false;
