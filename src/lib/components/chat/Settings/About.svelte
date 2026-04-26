@@ -152,7 +152,7 @@
 			{$i18n.t('Based on Open WebUI by')}
 			<a
 				class=" text-gray-500 dark:text-gray-300 font-medium"
-				href="https://github.com/open-webui/open-webui"
+				href="https://github.com/amavaljoh04-lang/helixai"
 				target="_blank">Open WebUI Team</a
 			>
 		</div>
